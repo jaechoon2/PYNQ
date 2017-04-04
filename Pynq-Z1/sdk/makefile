@@ -1,6 +1,9 @@
 # Makefile to build select Microblaze projects.
 
 
+SYSTEM?=base
+HDF_FILE=./$(SYSTEM).hdf
+REPO_PATH=../vivado/$(SYSTEM)/
 MBBINS = pmod_adc.bin \
 		pmod_dac.bin \
 		pmod_oled.bin \
@@ -34,25 +37,34 @@ MBBINS = pmod_adc.bin \
 		arduino_grove_haptic_motor.bin \
 		pmod_grove_th02.bin \
 		arduino_grove_th02.bin \
-		arduino_lcd18.bin
+		arduino_lcd18.bin \
+		vbx.bin
 
 all: iop_bins
 	@echo "Completed Microblaze Projects' Builds"
 
-mb_bsp: sdk_workspace
-	cd bsp_pmod && make && cd ..
-	cd bsp_arduino && make && cd ..
+mb_bsp: sdk_workspace.stamp
+	make -C bsp_pmod
+	make -C bsp_arduino
+	touch $@
 
 %.bin: mb_bsp
-	cd $(subst .bin,,$@)/Debug && make clean && make 
+	make -C $(subst .bin,,$@)/Debug $@
 
 iop_bins: $(MBBINS)
 	@cp */Debug/*.bin ./bin/
 
 
-sdk_workspace: base.hdf 
-	xsdk -batch -source build_xsdk.tcl
+sdk_workspace: sdk_workspace.stamp
 
+sdk_workspace.stamp: $(HDF_FILE)
+	rm -rf bsp_pmod bsp_pmod hw_def .Xil .metadata
+	xsdk  -batch -source build_xsdk.tcl $(HDF_FILE) $(REPO_PATH)
+ifeq ($(SYSTEM),vbx)
+	#avoid multiple definition error
+	sed -i 's/XNullHandler/Xil_NullHandler/' bsp_pmod/iop1_mb/libsrc/standalone_v5_4/src/xil_assert.c
+endif
+	touch $@
 clean:
 	rm -f */Debug/*.bin
 	rm -f */Debug/*.elf
@@ -60,5 +72,5 @@ clean:
 	rm -f */Debug/src/*.o
 	rm -f */Debug/src/*.d
 	rm -f bin/*
-	rm -rf bsp_pmod bsp_arduino hw_def .Xil .metadata SDK.log	
+	rm -rf bsp_pmod bsp_arduino hw_def .Xil .metadata SDK.log sdk_workspace.stamp
 	rm -rf sdk_import

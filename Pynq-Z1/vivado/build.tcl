@@ -10,7 +10,7 @@ if { $list_projs eq "" } {
 }
 
 set ip_paths [list ../ip \
-						/home/joel/Documents/vblox.develop/systems/zc706_imageon_arm_viv ]
+						. ]
 
 set_property  ip_repo_paths  $ip_paths [current_project]
 update_ip_catalog
