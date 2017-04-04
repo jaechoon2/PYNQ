@@ -54,7 +54,7 @@ update_pynq: revision_check xlnkutils pynq_package scripts_notebooks doc_noteboo
 	@echo "Completed PYNQ update."
 	@echo ""
 
-revision_check: 
+revision_check:
 	@echo
 	@echo "Verifying current SDCard image supports this pynq release."
 	@chmod +x ${MAKE_DIR}\revision_check.sh
@@ -65,7 +65,7 @@ revision_check:
 
 
 update_docs: scripts_notebooks doc_sphinx doc_notebooks doc_images pynq_permissions
-	@echo	
+	@echo
 	@echo "Completed PYNQ documentation build."
 	@echo "Documentation folder is at: ${FINAL_DOCS_DIR}"
 	@echo
@@ -77,8 +77,13 @@ pynq_package:
 	-${PYNQ_PYTHON} /home/xilinx/scripts/stop_pl_server.py
 	-rm -rf ${PYNQ_DIR}/*
 	cp -rf ${REPO_DIR}/${BOARD}/sdk/bin/*.bin ${REPO_DIR}/python/pynq/iop/
+	mkdir ${REPO_DIR}/python/pynq/iop/mxp-src/
 	cp -rf ${REPO_DIR}/${BOARD}/bitstream ${REPO_DIR}/python/pynq/
 	cd ${REPO_DIR}/python ; sudo -H ${PYNQ_PYTHON} -m pip install --upgrade .
+	mkdir /opt/python3.6/lib/python3.6/site-packages/pynq/iop/mxp-src/
+	cp -rf ${REPO_DIR}/${BOARD}/sdk/filter    /opt/python3.6/lib/python3.6/site-packages/pynq/iop/mxp-src/
+	cp -rf ${REPO_DIR}/${BOARD}/sdk/bsp_pmod/ /opt/python3.6/lib/python3.6/site-packages/pynq/iop/mxp-src/
+
 	${PYNQ_PYTHON} /home/xilinx/scripts/start_pl_server.py &
 
 pynq_permissions:
@@ -117,7 +122,7 @@ xlnkutils:
 clean_dirs:
 	@echo
 	@echo "Cleaning up old files"
-	@echo 
+	@echo
 	mv ${FINAL_NOTEBOOKS_DIR}/slides/reveal.js ${ROOT_DIR}/
 	rm -rf ${FINAL_NOTEBOOKS_DIR}/*
 	mkdir -p ${FINAL_NOTEBOOKS_DIR}/getting_started/images
@@ -152,7 +157,7 @@ doc_notebooks:
 	cp ${REPO_DIR}/docs/source/10_base_overlay_audio.ipynb \
 	${FINAL_NOTEBOOKS_DIR}/getting_started/6_base_overlay_audio.ipynb
 
-doc_images: 
+doc_images:
 	@for f in ${NOTEBOOK_IMAGES} ; do \
 		cp ${REPO_DIR}/docs/source/images/$$f ${FINAL_NOTEBOOKS_DIR}/getting_started/images/ || exit 1; \
 	done

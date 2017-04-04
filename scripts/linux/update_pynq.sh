@@ -1,4 +1,4 @@
-#!/bin/bash  
+#!/bin/bash
 
 set -e
 
@@ -6,6 +6,7 @@ UPDATEPYNQ_DIR=/home/xilinx/scripts
 REPO_DIR=/home/xilinx/pynq_git
 MAKEFILE_PATH=${REPO_DIR}/scripts/linux/makefile.pynq
 PYNQ_REPO=https://github.com/Xilinx/PYNQ.git
+PYNQ_REPO=joel@vax:Documents/PYNQ
 
 
 if ! [ $(id -u) = 0 ]; then
@@ -26,7 +27,7 @@ where:
     -b branch   update package to this repository branch [DEFAULT: master]
     -d          rebuild docs from source"
 
-    
+
 
 
 _repo_branch=master
@@ -55,7 +56,7 @@ function build_docs()
 
 function build_pynq()
 {
-    make -f ${MAKEFILE_PATH} update_pynq 
+    make -f ${MAKEFILE_PATH} update_pynq
 }
 
 function init_repo()
@@ -63,22 +64,12 @@ function init_repo()
     echo "Info: This operation will overwrite all the example notebooks"
     read -rsp $'Press any key to continue...\n' -n1 key
 
-    if [[ -d $REPO_DIR/.git ]] ; then
-        echo ""
-        echo "Github Repo Detected. Pulling latest changes from upstream.."
-        cd ${REPO_DIR}
-        git checkout --track origin/${_repo_branch} || git checkout -f ${_repo_branch}
-        git fetch
-        git pull 
-        echo ""
-    else
-        echo "Cloning Pynq repo ${_repo_branch}"
-        rm -rf $REPO_DIR
-        mkdir $REPO_DIR -p
-        git clone  ${PYNQ_REPO} ${REPO_DIR}
-        cd ${REPO_DIR}
-        git checkout --track origin/${_repo_branch}
-    fi
+    echo "Cloning Pynq repo ${_repo_branch}"
+    rm -rf $REPO_DIR
+    mkdir $REPO_DIR -p
+    git clone  ${PYNQ_REPO} ${REPO_DIR}
+    cd ${REPO_DIR}
+    git checkout ${_repo_branch}
 
     cd ${REPO_DIR}
 }
