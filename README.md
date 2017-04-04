@@ -1,3 +1,14 @@
+#Vectorblox PYNQ Fork
+To use this fork on the precompiled image, you need to run the following command to replace the
+`~xilinx/scripts/update_pynq.sh` on the image with the `scripts/linux/update_pynq.sh` then run
+`sudo scripts/update_pynq.sh -b vectorblox -l` from the pynq.
+
+Another issue that needs to be resolved is that as of April 2017, Xilinx has the wrong path for
+the microblaze compiler on the system the command `sed -i 's/microblaze/microblazeel/' /etc/enviroment`
+should fix this.
+
+The rest of this readme is from the original repository
+
 ![alt tag](https://github.com/Xilinx/PYNQ/blob/master/images/logo.png)
 
 PYNQ is an open-source project from Xilinx that makes it easy to design embedded systems with Zynq All Programmable Systems on Chips (APSoCs). Using the Python language and libraries, designers can exploit the benefits of programmable logic and microprocessors in Zynq to build more capable and exciting embedded systems.
@@ -9,13 +20,13 @@ PYNQ users can now create high performance embedded applications with
 -	high bandwidth IO
 -	low latency control
 
-See the <a href="http://www.pynq.io/" target="_blank">PYNQ webpage</a> for an overview of the project, and find <a href="http://pynq.readthedocs.io" target="_blank">documentation on ReadTheDocs</a> to get started. 
+See the <a href="http://www.pynq.io/" target="_blank">PYNQ webpage</a> for an overview of the project, and find <a href="http://pynq.readthedocs.io" target="_blank">documentation on ReadTheDocs</a> to get started.
 
 ## Precompiled Image
 
-The project currently supports the PYNQ-Z1 board. 
+The project currently supports the PYNQ-Z1 board.
 
-You can <a href="https://files.digilent.com/Products/PYNQ/pynq_z1_image_2016_09_14.zip" target="_blank">download the precompiled image</a>, write the image to a micro SD card, and boot the board from the micro SD card. 
+You can <a href="https://files.digilent.com/Products/PYNQ/pynq_z1_image_2016_09_14.zip" target="_blank">download the precompiled image</a>, write the image to a micro SD card, and boot the board from the micro SD card.
 
 ## Quick Start
 
@@ -23,7 +34,7 @@ See the <a href="http://pynq.readthedocs.io/en/latest/1_getting_started.html" ta
 
 ## Modify Python
 
-All Python code for the `pynq` package can be found in the `/python` folder. This folder can be found on the board after the board boots with the precompiled image. 
+All Python code for the `pynq` package can be found in the `/python` folder. This folder can be found on the board after the board boots with the precompiled image.
 
 You can clone this repository, edit the Python code and copy it directly to the corresponding folder on the board. (You may need to reboot the board to load the changes.)
 
