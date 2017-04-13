@@ -7,7 +7,7 @@ MXP_GIT=mxp/.git
 
 $(MXP_GIT):
 	git clone https://github.com/VectorBlox/mxp.git
-	(cd mxp && git checkout 09859bd )
+	(cd mxp && git checkout b5bc12f02d )
 
 all: $(VIVADO_PROJECT).tcl $(MXP_GIT)
 	rm -rf $(VIVADO_PROJECT)

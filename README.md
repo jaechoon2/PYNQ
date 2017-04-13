@@ -1,4 +1,4 @@
-#Vectorblox PYNQ Fork
+## Vectorblox PYNQ Fork
 To use this fork on the precompiled image, you need to run the following command to replace the
 `~xilinx/scripts/update_pynq.sh` on the image with the `scripts/linux/update_pynq.sh` then run
 `sudo scripts/update_pynq.sh -b vectorblox -l` from the pynq.
