@@ -4,7 +4,7 @@ To use this fork on the precompiled image, you need to run the following command
 `sudo scripts/update_pynq.sh -b vectorblox -l` from the pynq.
 
 Another issue that needs to be resolved is that as of April 2017, Xilinx has the wrong path for
-the microblaze compiler on the system the command `sed -i 's/microblaze/microblazeel/' /etc/enviroment`
+the microblaze compiler on the system the command `sed -i 's/microblaze/microblazeel/' /etc/environment`
 should fix this.
 
 The rest of this readme is from the original repository
